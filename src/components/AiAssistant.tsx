@@ -3,8 +3,6 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { useApp } from '../context/AppContext';
 import { Sparkles, Loader2 } from 'lucide-react';
 
-const API_KEY = '__GEMINI_KEY__';
-
 export default function AiAssistant() {
   const { state } = useApp();
   const [response, setResponse] = useState('');
@@ -12,10 +10,13 @@ export default function AiAssistant() {
   const [error, setError] = useState('');
 
   const generateAdvice = async () => {
-    if (!API_KEY || API_KEY === '__GEMINI_KEY__') {
+    const API_KEY = (import.meta as any).env.VITE_GEMINI_API_KEY;
+
+    if (!API_KEY || API_KEY === '') {
       setError('AI feature not configured. Please contact the admin.');
       return;
     }
+    
     if (!state.baseline || !state.emissions) {
       setError('Please complete the carbon calculator first to get your baseline.');
       return;

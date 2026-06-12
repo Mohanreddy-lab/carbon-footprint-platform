@@ -5,7 +5,7 @@ COPY package*.json ./
 RUN npm install --legacy-peer-deps
 COPY . .
 ARG VITE_GEMINI_API_KEY
-RUN sed -i "s|__GEMINI_KEY__|${VITE_GEMINI_API_KEY}|g" src/components/AiAssistant.tsx
+ENV VITE_GEMINI_API_KEY=$VITE_GEMINI_API_KEY
 RUN npm run build
 
 # Stage 2: Serve with nginx
