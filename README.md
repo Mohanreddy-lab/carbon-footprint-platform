@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🌿 EcoTrack — Carbon Footprint Awareness Platform
 
 > **Google Prompt Wars – Challenge 3: Carbon Footprint Awareness Platform**
