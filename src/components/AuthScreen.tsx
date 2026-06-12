@@ -8,7 +8,7 @@ export default function AuthScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  
+
   const { dispatch } = useApp();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -26,19 +26,17 @@ export default function AuthScreen() {
         setError('Account with this email already exists');
         return;
       }
-      
-      // Register user in mock DB
+
       db[email] = { password };
       localStorage.setItem('ecotrack-users-db', JSON.stringify(db));
-      
-      // Update app state
+
       dispatch({ 
         type: 'SET_USER', 
         payload: { name: name.trim(), email, isAuthenticated: true, setupComplete: false } 
       });
-      
+
     } else {
-      // Login
+
       const userRecord = db[email];
       if (!userRecord || userRecord.password !== password) {
         setError('Invalid email or password');
@@ -48,8 +46,7 @@ export default function AuthScreen() {
         setError('User data corrupted. Please register again.');
         return;
       }
-      
-      // Load user state
+
       dispatch({ type: 'LOGIN', payload: userRecord.state });
     }
   };
@@ -168,7 +165,7 @@ export default function AuthScreen() {
           </button>
         </div>
       </div>
-      
+
       <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px) scale(1); }

@@ -66,7 +66,7 @@ function reducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case 'LOGIN':
       return { ...action.payload, toasts: [], showConfetti: false, pendingLevelUp: null };
-      
+
     case 'LOGOUT':
       return { ...initialState, user: { ...initialState.user, joinDate: new Date().toISOString() } };
 
@@ -106,13 +106,11 @@ function reducer(state: AppState, action: AppAction): AppState {
           ? state.user.streak + 1
           : 1;
 
-      // Check if we should auto-use a shield (missed a day but not yesterday)
       const missedDay = lastLog && lastLog !== today && lastLog !== yesterday;
       const hasShield = state.user.streakShields > 0;
       const streakAfterShield = missedDay && hasShield ? state.user.streak : newStreak;
       const shieldsAfter = missedDay && hasShield ? state.user.streakShields - 1 : state.user.streakShields;
 
-      // Award shield every 7 streak days
       const lastEarned = state.user.shieldLastEarned ? new Date(state.user.shieldLastEarned).toDateString() : null;
       const shieldEarned = isNewDay && streakAfterShield > 0 && streakAfterShield % 7 === 0 && lastEarned !== today;
       const newShields = shieldEarned ? shieldsAfter + 1 : shieldsAfter;
@@ -205,7 +203,7 @@ function reducer(state: AppState, action: AppAction): AppState {
     }
 
     case 'UNLOCK_ACHIEVEMENT': {
-      // ✅ FIX: Exit early if already unlocked — prevents XP exploit
+
       const target = state.achievements.find(a => a.id === action.payload);
       if (!target || target.unlocked) return state;
 
@@ -269,13 +267,13 @@ function loadState(): AppState {
     if (!raw) return initialState;
     const saved = JSON.parse(raw) as AppState;
     if (typeof saved !== 'object' || saved === null || Array.isArray(saved)) return initialState;
-    
+
     const savedUser = typeof saved.user === 'object' && saved.user !== null ? saved.user : {};
-    
+
     return {
       ...initialState,
       ...saved,
-      // Always clear ephemeral UI state on load
+
       toasts: [],
       showConfetti: false,
       pendingLevelUp: null,
@@ -311,32 +309,29 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const prevLevelRef = useRef(state.user.level);
   const prevXpRef = useRef(state.user.xp);
 
-  // Persist state to localStorage (excluding ephemeral UI state)
   useEffect(() => {
     try {
       const { toasts: _, showConfetti: __, pendingLevelUp: ___, ...persistable } = state;
-      // Save current active session
+
       localStorage.setItem(STORAGE_KEY, JSON.stringify(persistable));
-      
-      // Save to mock DB if authenticated
+
       if (state.user.isAuthenticated && state.user.email) {
         const rawDb = localStorage.getItem(DB_KEY);
         const db = rawDb ? JSON.parse(rawDb) : {};
-        // Only update the state, keep the password
+
         if (db[state.user.email]) {
           db[state.user.email].state = persistable;
         } else {
-          // Should not happen as AuthScreen creates the DB entry, but fallback:
+
           db[state.user.email] = { password: '', state: persistable };
         }
         localStorage.setItem(DB_KEY, JSON.stringify(db));
       }
     } catch {
-      // Storage quota exceeded — ignore
+
     }
   }, [state]);
 
-  // Auto-update level based on XP + detect level-up
   useEffect(() => {
     const { xp, level } = state.user;
     const thresholds = [0, 200, 500, 1000, 2000, 3500];
@@ -348,7 +343,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const prevLevel = prevLevelRef.current;
       dispatch({ type: 'SET_USER', payload: { level: newLevel } });
       if (newLevel > prevLevel) {
-        // Trigger level-up celebration
+
         dispatch({
           type: 'ADD_TOAST',
           payload: makeToast('levelup', `🎉 Level Up! Level ${newLevel}`, 'You reached a new level — amazing!', '⬆️'),
@@ -361,12 +356,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     prevXpRef.current = xp;
   }, [state.user.xp, state.user.level]);
 
-  // ✅ Achievement Watcher — auto-unlock achievements based on state conditions
   useEffect(() => {
     const { user, activities, actions, achievements } = state;
     const isUnlocked = (id: string) => achievements.find(a => a.id === id)?.unlocked ?? false;
 
-    // Streak achievements
     if (user.streak >= 3 && !isUnlocked('ach3'))
       dispatch({ type: 'UNLOCK_ACHIEVEMENT', payload: 'ach3' });
     if (user.streak >= 7 && !isUnlocked('ach4'))
@@ -374,52 +367,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (user.streak >= 30 && !isUnlocked('ach5'))
       dispatch({ type: 'UNLOCK_ACHIEVEMENT', payload: 'ach5' });
 
-    // Score achievements
     if (user.carbonScore >= 700 && !isUnlocked('ach9'))
       dispatch({ type: 'UNLOCK_ACHIEVEMENT', payload: 'ach9' });
     if (user.carbonScore >= 900 && !isUnlocked('ach10'))
       dispatch({ type: 'UNLOCK_ACHIEVEMENT', payload: 'ach10' });
 
-    // Activity-based
-    const transitCount = activities.filter(a =>
-      a.category === 'transport' &&
-      (a.description.toLowerCase().includes('bus') ||
-       a.description.toLowerCase().includes('train') ||
-       a.description.toLowerCase().includes('transit') ||
-       a.description.toLowerCase().includes('public'))
-    ).length;
-    if (transitCount >= 10 && !isUnlocked('ach11'))
-      dispatch({ type: 'UNLOCK_ACHIEVEMENT', payload: 'ach11' });
-
-    const plantMeals = activities.filter(a =>
-      a.category === 'food' &&
-      (a.description.toLowerCase().includes('vegan') ||
-       a.description.toLowerCase().includes('vegetarian') ||
-       a.description.toLowerCase().includes('plant'))
-    ).length;
-    if (plantMeals >= 10 && !isUnlocked('ach12'))
-      dispatch({ type: 'UNLOCK_ACHIEVEMENT', payload: 'ach12' });
-
-    const compostCount = activities.filter(a =>
-      a.description.toLowerCase().includes('compost') ||
-      a.description.toLowerCase().includes('waste') ||
-      a.description.toLowerCase().includes('recycle')
-    ).length;
-    if (compostCount >= 7 && !isUnlocked('ach18'))
-      dispatch({ type: 'UNLOCK_ACHIEVEMENT', payload: 'ach18' });
-
-    // Committed actions savings
     const committedSavings = actions.filter(a => a.committed).reduce((s, a) => s + a.co2SavedPerYear, 0);
     if (committedSavings >= 1000 && !isUnlocked('ach13'))
       dispatch({ type: 'UNLOCK_ACHIEVEMENT', payload: 'ach13' });
-
-    // Community rank (check if user would be in top 5 on leaderboard with mock data)
-    const communityScores = [842, 798, 756, 723, 701, 689, 654, 632, 598, 545];
-    const rank = communityScores.filter(s => s > user.carbonScore).length + 1;
-    if (rank <= 5 && !isUnlocked('ach15'))
-      dispatch({ type: 'UNLOCK_ACHIEVEMENT', payload: 'ach15' });
-
-  }, [state.user.streak, state.user.carbonScore, state.activities.length, state.actions]);
+  }, [state.user.streak, state.user.carbonScore, state.actions]);
 
   return <AppContext.Provider value={{ state, dispatch }}>{children}</AppContext.Provider>;
 }

@@ -3,8 +3,6 @@ import type {
   OffsetProject, NewsArticle, LeaderboardEntry, MonthlyData, Activity
 } from '../types';
 
-// ── Emission Factors ──────────────────────────────────────────────────────────
-
 export const CAR_FACTORS: Record<string, number> = {
   none: 0,
   electric: 0.05,
@@ -32,8 +30,6 @@ export const SHOPPING_BASE_KG: Record<string, number> = {
   average: 400,
   frequent: 800,
 };
-
-// ── Core Calculator ───────────────────────────────────────────────────────────
 
 export function calculateEmissions(b: CarbonBaseline): EmissionBreakdown {
   const carKg = b.transport.carMilesPerWeek * (CAR_FACTORS[b.transport.carType] ?? 0) * 52;
@@ -104,8 +100,6 @@ export function getPersonalizedTip(emissions: EmissionBreakdown | null): string 
   return tips[top] ?? 'Small changes add up! Air-drying your laundry instead of using a dryer can save 150 kg CO₂ per year with zero effort.';
 }
 
-// ── Quick Activity Presets ────────────────────────────────────────────────────
-
 export const QUICK_ACTIVITIES: Omit<Activity, 'id' | 'date'>[] = [
   { category: 'transport', description: 'Took bus or train', co2Impact: -2.5, icon: '🚌', points: 10 },
   { category: 'transport', description: 'Rode bike instead of drove', co2Impact: -3.0, icon: '🚲', points: 12 },
@@ -121,10 +115,8 @@ export const QUICK_ACTIVITIES: Omit<Activity, 'id' | 'date'>[] = [
   { category: 'other', description: 'Composted food scraps', co2Impact: -0.5, icon: '🌿', points: 3 },
 ];
 
-// ── Actions Library ───────────────────────────────────────────────────────────
-
 export const DEFAULT_ACTIONS: CarbonAction[] = [
-  // Transport
+
   {
     id: 'a1', title: 'Walk or Bike Short Trips', description: 'Replace short car trips under 2 miles with walking or cycling.', category: 'transport',
     co2SavedPerYear: 400, difficulty: 'easy', timeToImplement: 'Today', committed: false,
@@ -160,7 +152,7 @@ export const DEFAULT_ACTIONS: CarbonAction[] = [
     co2SavedPerYear: 100, difficulty: 'easy', timeToImplement: 'Today', committed: false,
     icon: '🔧', tips: ['Check pressure monthly', 'Many gas stations have free air pumps', 'Under-inflated tires also wear faster'],
   },
-  // Home
+
   {
     id: 'a8', title: 'Switch to LED Bulbs', description: 'Replace all incandescent bulbs with LEDs — they use 75% less energy.', category: 'home',
     co2SavedPerYear: 63, difficulty: 'easy', timeToImplement: 'Today', committed: false,
@@ -206,7 +198,7 @@ export const DEFAULT_ACTIONS: CarbonAction[] = [
     co2SavedPerYear: 800, difficulty: 'hard', timeToImplement: '1–3 months', committed: false,
     icon: '🌀', tips: ['Check heat pump grants in your region', 'Pair with solar for maximum impact', 'Great for underfloor heating'],
   },
-  // Food
+
   {
     id: 'a17', title: 'Reduce Food Waste by 25%', description: 'Plan meals, use leftovers, and freeze food before it spoils.', category: 'food',
     co2SavedPerYear: 80, difficulty: 'easy', timeToImplement: 'This week', committed: false,
@@ -242,7 +234,7 @@ export const DEFAULT_ACTIONS: CarbonAction[] = [
     co2SavedPerYear: 900, difficulty: 'hard', timeToImplement: '3–6 months', committed: false,
     icon: '🥦', tips: ['Supplement B12, D3, and Omega-3', 'Nutritional yeast adds cheesy flavour', 'Tofu, tempeh, seitan are versatile proteins'],
   },
-  // Shopping
+
   {
     id: 'a24', title: 'Buy Second-Hand Clothing', description: 'Thrift shops and apps like Vinted, Depop, and ThredUp extend garment life.', category: 'shopping',
     co2SavedPerYear: 350, difficulty: 'easy', timeToImplement: 'This week', committed: false,
@@ -263,7 +255,7 @@ export const DEFAULT_ACTIONS: CarbonAction[] = [
     co2SavedPerYear: 400, difficulty: 'medium', timeToImplement: 'This month', committed: false,
     icon: '👚', tips: ['Do a "30 wears" test before buying', 'Capsule wardrobes reduce decision fatigue', 'Clothing swaps with friends are fun & free'],
   },
-  // Flights
+
   {
     id: 'a28', title: 'Skip One Short-Haul Flight', description: 'Replace a trip under 3 hours with train, bus, or video call.', category: 'flights',
     co2SavedPerYear: 255, difficulty: 'medium', timeToImplement: 'Next trip', committed: false,
@@ -285,8 +277,6 @@ export const DEFAULT_ACTIONS: CarbonAction[] = [
     icon: '🌳', tips: ['Use Gold Standard or VCS-certified offsets', 'Many booking sites now offer offset at checkout', 'Costs typically $5–20 per flight'],
   },
 ];
-
-// ── Achievements ──────────────────────────────────────────────────────────────
 
 export const DEFAULT_ACHIEVEMENTS: Achievement[] = [
   { id: 'ach1', title: 'First Steps', description: 'Complete the carbon calculator', icon: '👣', rarity: 'common', points: 50, unlocked: false, category: 'setup' },
@@ -310,8 +300,6 @@ export const DEFAULT_ACHIEVEMENTS: Achievement[] = [
   { id: 'ach19', title: 'Solar Citizen', description: 'Commit to switching to renewable energy', icon: '☀️', rarity: 'epic', points: 300, unlocked: false, category: 'actions' },
   { id: 'ach20', title: 'Flight Free', description: 'Skip all flights for 30 days', icon: '✈️', rarity: 'epic', points: 300, unlocked: false, category: 'tracking' },
 ];
-
-// ── Offset Projects ───────────────────────────────────────────────────────────
 
 export const OFFSET_PROJECTS: OffsetProject[] = [
   {
@@ -339,8 +327,6 @@ export const OFFSET_PROJECTS: OffsetProject[] = [
     location: 'Uganda', costPerTonne: 25, availableTonnes: 200, icon: '🌿', sdgs: [2, 13, 15], category: 'Biochar',
   },
 ];
-
-// ── News Articles ─────────────────────────────────────────────────────────────
 
 export const NEWS_ARTICLES: NewsArticle[] = [
   {
@@ -393,8 +379,6 @@ export const NEWS_ARTICLES: NewsArticle[] = [
   },
 ];
 
-// ── Community Leaderboard ─────────────────────────────────────────────────────
-
 export const COMMUNITY_MEMBERS: LeaderboardEntry[] = [
   { id: 'u1', name: 'Sarah K.', location: 'Stockholm', score: 842, level: 4, streak: 45 },
   { id: 'u2', name: 'Raj P.', location: 'Amsterdam', score: 798, level: 4, streak: 32 },
@@ -408,8 +392,6 @@ export const COMMUNITY_MEMBERS: LeaderboardEntry[] = [
   { id: 'u10', name: 'Maria R.', location: 'Madrid', score: 545, level: 2, streak: 2 },
 ];
 
-// ── Eco Facts ─────────────────────────────────────────────────────────────────
-
 export const ECO_FACTS: string[] = [
   'The average American generates 16 tonnes of CO₂/year — 4× the global average of 4 tonnes.',
   'Producing 1 kg of beef generates 27 kg of CO₂ — the same as driving 115 miles.',
@@ -422,8 +404,6 @@ export const ECO_FACTS: string[] = [
   'If one million people switched to plant-based diets it would save 1.5 million tonnes CO₂/year.',
   'Electric vehicles have 50–70% lower lifetime emissions than petrol cars even on today\'s grid.',
 ];
-
-// ── Level Definitions ─────────────────────────────────────────────────────────
 
 export const LEVELS = [
   { level: 0, title: 'Eco Seedling', minXp: 0, maxXp: 200, icon: '🌱' },

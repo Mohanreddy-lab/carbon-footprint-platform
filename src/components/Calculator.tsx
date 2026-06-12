@@ -149,7 +149,6 @@ export default function Calculator({ onNavigate }: Props) {
     </div>
   );
 
-  // Comparison data for results step
   const comparisonData = useMemo(() => [
     ...COMPARISON_PEOPLE.map(p => ({
       name: p.name,

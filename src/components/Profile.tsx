@@ -56,7 +56,6 @@ export default function Profile({ onNavigate: _ }: { onNavigate: (p: import('../
     setShowReset(false);
   };
 
-  // Radar chart data for emission breakdown
   const radarData = emissions ? [
     { subject: 'Transport', A: Math.round((emissions.transport / emissions.total) * 100) },
     { subject: 'Home', A: Math.round((emissions.home / emissions.total) * 100) },
