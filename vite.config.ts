@@ -9,7 +9,7 @@ export default defineConfig({
         manualChunks: {
           // Split vendor chunks for better caching
           'react-vendor': ['react', 'react-dom'],
-          'chart-vendor': ['recharts'],
+          'chart-vendor': ['react-google-charts'],
           'icon-vendor': ['lucide-react'],
         },
       },
@@ -17,6 +17,6 @@ export default defineConfig({
     chunkSizeWarningLimit: 600,
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'recharts', 'lucide-react'],
+    include: ['react', 'react-dom', 'react-google-charts', 'lucide-react'],
   },
 });

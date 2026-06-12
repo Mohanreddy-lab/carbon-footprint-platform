@@ -3,7 +3,7 @@ import { ChevronRight, ChevronLeft, CheckCircle2, TrendingDown } from 'lucide-re
 import { useApp } from '../context/AppContext';
 import { calculateEmissions, calculateCarbonScore, getScoreLabel } from '../data/emissionData';
 import type { CarbonBaseline, CarType, DietType, ShoppingLevel, FoodWasteLevel } from '../types';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+
 
 const STEPS = ['Transport', 'Home Energy', 'Food', 'Shopping', 'Flights', 'Results'];
 

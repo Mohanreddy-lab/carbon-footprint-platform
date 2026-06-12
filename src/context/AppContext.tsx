@@ -268,7 +268,7 @@ function loadState(): AppState {
     const saved = JSON.parse(raw) as AppState;
     if (typeof saved !== 'object' || saved === null || Array.isArray(saved)) return initialState;
 
-    const savedUser = typeof saved.user === 'object' && saved.user !== null ? saved.user : {};
+    const savedUser = typeof saved.user === 'object' && saved.user !== null ? (saved.user as any) : {};
 
     return {
       ...initialState,
