@@ -7,9 +7,22 @@ export type ActivityCategory = 'transport' | 'food' | 'energy' | 'shopping' | 'f
 export type AchievementRarity = 'common' | 'rare' | 'epic' | 'legendary';
 export type NewsCategory = 'policy' | 'tech' | 'science' | 'tips';
 export type Page = 'dashboard' | 'calculator' | 'tracker' | 'actions' | 'community' | 'profile';
+export type ToastType = 'achievement' | 'levelup' | 'streak' | 'info' | 'milestone';
+
+export interface ToastNotification {
+  id: string;
+  type: ToastType;
+  title: string;
+  message: string;
+  icon: string;
+  rarity?: AchievementRarity;
+  duration?: number; // ms, default 4000
+}
 
 export interface UserProfile {
   name: string;
+  email?: string;
+  isAuthenticated: boolean;
   setupComplete: boolean;
   carbonScore: number;
   level: number;
@@ -19,6 +32,8 @@ export interface UserProfile {
   joinDate: string;
   totalCO2Saved: number;
   totalOffsetKg: number;
+  streakShields: number;      // shields earned every 7 days
+  shieldLastEarned: string | null; // ISO date of last shield earned
 }
 
 export interface CarbonBaseline {
@@ -161,9 +176,14 @@ export interface AppState {
     current: number;
     target: number;
   };
+  toasts: ToastNotification[];
+  showConfetti: boolean;
+  pendingLevelUp: { from: number; to: number } | null;
 }
 
 export type AppAction =
+  | { type: 'LOGIN'; payload: AppState }
+  | { type: 'LOGOUT' }
   | { type: 'SET_USER'; payload: Partial<UserProfile> }
   | { type: 'COMPLETE_SETUP'; payload: { baseline: CarbonBaseline; emissions: EmissionBreakdown } }
   | { type: 'ADD_ACTIVITY'; payload: Activity }
@@ -172,4 +192,9 @@ export type AppAction =
   | { type: 'ADD_OFFSET'; payload: OffsetPurchase }
   | { type: 'TOGGLE_SAVED_ARTICLE'; payload: string }
   | { type: 'UNLOCK_ACHIEVEMENT'; payload: string }
+  | { type: 'ADD_TOAST'; payload: ToastNotification }
+  | { type: 'REMOVE_TOAST'; payload: string }
+  | { type: 'CLEAR_CONFETTI' }
+  | { type: 'CLEAR_LEVEL_UP' }
+  | { type: 'USE_STREAK_SHIELD' }
   | { type: 'RESET_DATA' };

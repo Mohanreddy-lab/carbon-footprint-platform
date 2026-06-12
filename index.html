@@ -2,11 +2,56 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#060b18" />
+
+    <!-- PWA Meta -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="EcoTrack" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23060b18' width='100' height='100' rx='20'/><text y='.9em' font-size='70' x='15'>🌿</text></svg>" />
+
+    <!-- SEO -->
+    <title>EcoTrack — Carbon Footprint Tracker & Climate Action Platform</title>
+    <meta name="description" content="Track, understand, and dramatically reduce your carbon footprint with EcoTrack. Personalized AI insights, gamified challenges, 31 reduction actions, community leaderboard, and real-time impact visualization." />
+    <meta name="keywords" content="carbon footprint tracker, climate action, eco tracking, carbon calculator, sustainability, green living, net zero, carbon offset" />
+    <link rel="canonical" href="https://ecotrack.netlify.app" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ecotrack.netlify.app" />
+    <meta property="og:title" content="EcoTrack — Carbon Footprint Tracker" />
+    <meta property="og:description" content="Your personal carbon footprint dashboard. Track emissions, discover 31 reduction actions, compete on leaderboards, and visualize your real-world impact." />
+    <meta property="og:image" content="https://ecotrack.netlify.app/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="EcoTrack — Carbon Footprint Tracker" />
+    <meta name="twitter:description" content="Track your carbon footprint, earn achievements, and join a community fighting climate change." />
+
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0a0e1a" />
-    <title>EcoTrack — Carbon Footprint Platform</title>
-    <meta name="description" content="Track, understand, and reduce your carbon footprint with personalized insights, gamification, and actionable recommendations." />
+
+    <!-- Preconnect to Google Fonts CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "EcoTrack",
+      "description": "Carbon footprint tracker with personalized insights and gamification",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

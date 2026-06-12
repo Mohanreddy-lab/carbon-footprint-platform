@@ -6,6 +6,32 @@ A comprehensive, gamified platform helping individuals **understand**, **track**
 
 ---
 
+## 🏆 Prompt Wars Submission Details
+
+### Chosen Vertical
+**Carbon Footprint Awareness Platform**
+We chose this vertical to create a highly engaging, data-driven application that takes the complex global issue of carbon emissions and makes it personal, understandable, and actionable for the everyday user.
+
+### Approach and Logic
+Our approach heavily leans into **Gamification and Behavioral Economics**. 
+Instead of just showing users a daunting number, we break down their footprint into a 5-step interactive wizard (Transport, Home, Food, Shopping, Flights). We calculate a unified **Carbon Score (0-1000)** based on real-world IPCC/EPA emission factors to provide a clear baseline. From there, users are incentivized to return daily through XP, streak shields, and a leveling system that rewards logging low-carbon activities and committing to reduction actions.
+
+### How the Solution Works
+EcoTrack is a fully client-side React 18 application using Vite and Tailwind CSS.
+1. **Onboarding & Calculation:** Users complete a wizard to establish their baseline kg CO₂e/year.
+2. **Dashboard:** Visualizes the user's score, category breakdown, and compares them to global averages using Recharts.
+3. **Daily Tracking:** Users log preset or custom activities to earn XP and build streaks.
+4. **Action Center & Offsets:** Users can commit to long-term reductions (e.g., "Switch to LED bulbs") or simulate purchasing carbon offsets to lower their net footprint.
+5. **Community:** Users can see how they rank against others on a leaderboard and read a curated eco-news feed.
+*Note: All data is securely persisted in the user's browser via `localStorage` with robust type-validation to prevent tampering.*
+
+### Assumptions Made
+1. **Data Averages:** We assume standard IPCC/EPA averages for vehicle emissions and dietary impacts (e.g., 0.21 kg/mile for a gas car), which serve as accurate approximations rather than exact scientific measurements.
+2. **Storage Constraints:** We assume the user relies on a single device, as `localStorage` does not sync across multiple devices without a backend.
+3. **Offset Pricing:** Simulated carbon offsets use a flat rate (e.g., $10-$25/tonne) reflective of current voluntary carbon market prices.
+
+---
+
 ## 🚀 Live Features
 
 ### 📊 Carbon Score (0–1000)
