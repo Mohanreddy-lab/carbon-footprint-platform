@@ -1,13 +1,15 @@
-<<<<<<< HEAD
-# 🌿 EcoTrack — Carbon Footprint Awareness Platform
+# ?? EcoTrack � Carbon Footprint Awareness Platform
 
-> **Google Prompt Wars – Challenge 3: Carbon Footprint Awareness Platform**
+> **Google Prompt Wars � Challenge 3: Carbon Footprint Awareness Platform**
 
-A comprehensive, gamified platform helping individuals **understand**, **track**, and **reduce** their carbon footprint through personalized insights, real emission data, and community engagement.
+?? **Live App:** https://ecotrack-1067011067662.us-central1.run.app
+?? **GitHub:** https://github.com/Mohanreddy-lab/carbon-footprint-platform
+
+A gamified platform powered by **Google Gemini AI** to help individuals understand, track, and reduce their carbon footprint.
 
 ---
 
-## 🏆 Prompt Wars Submission Details
+
 
 ### Chosen Vertical
 **Carbon Footprint Awareness Platform**
@@ -157,6 +159,3 @@ src/
     └── index.ts            # TypeScript type definitions
 ```
 
----
-
-Built with ❤️ and Claude Code for Google Prompt Wars 2026.
