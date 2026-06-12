@@ -4,7 +4,7 @@ import { useApp } from '../context/AppContext';
 import { COMMUNITY_MEMBERS, NEWS_ARTICLES, ECO_FACTS, LEVELS } from '../data/emissionData';
 import type { NewsCategory } from '../types';
 
-const SUB_TABS = ['Leaderboard', 'News'] as const;
+const SUB_TABS = ['Leaderboard', 'News', 'Local'] as const;
 type SubTab = typeof SUB_TABS[number];
 
 const NEWS_CATEGORY_COLORS: Record<NewsCategory, string> = {
@@ -213,6 +213,40 @@ function NewsTab() {
   );
 }
 
+function LocalTab() {
+  return (
+    <div className="space-y-4 animate-in">
+      <div className="card border border-emerald-500/20">
+        <h3 className="text-sm font-semibold text-emerald-400 mb-2">Local Eco-Hubs</h3>
+        <p className="text-xs text-slate-400 mb-4">
+          Discover recycling centers, sustainable stores, and eco-communities near you using Google Maps.
+        </p>
+        
+        <div className="w-full h-64 rounded-xl overflow-hidden border border-slate-700 bg-slate-800 relative">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d100000!2d-122.4!3d37.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDQyJzAwLjAiTiAxMjLCsDI0JzAwLjAiVw!5e0!3m2!1sen!2sus!4v1"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen={false}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all duration-500"
+          ></iframe>
+        </div>
+        
+        <div className="mt-4 flex gap-2">
+          {['♻️ Recycling', '🚲 Bike Shares', '🥑 Farmers Markets'].map(tag => (
+            <span key={tag} className="px-2.5 py-1 text-[10px] bg-slate-800 border border-slate-700 text-slate-300 rounded-full">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface Props { onNavigate: (p: import('../types').Page) => void }
 
 export default function Community({ onNavigate: _ }: Props) {
@@ -232,7 +266,10 @@ export default function Community({ onNavigate: _ }: Props) {
               subTab === tab ? 'bg-emerald-500/20 text-emerald-300' : 'text-slate-500 hover:text-slate-300'
             }`}>
             <span className="flex items-center justify-center gap-1.5">
-              {tab === 'Leaderboard' ? <Trophy size={14} /> : <Newspaper size={14} />}{tab}
+              {tab === 'Leaderboard' && <Trophy size={14} />}
+              {tab === 'News' && <Newspaper size={14} />}
+              {tab === 'Local' && <span className="text-sm">📍</span>}
+              {tab}
             </span>
           </button>
         ))}
@@ -240,6 +277,7 @@ export default function Community({ onNavigate: _ }: Props) {
 
       {subTab === 'Leaderboard' && <LeaderboardTab />}
       {subTab === 'News' && <NewsTab />}
+      {subTab === 'Local' && <LocalTab />}
     </div>
   );
 }

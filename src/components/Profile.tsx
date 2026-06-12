@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import { Chart } from 'react-google-charts';
 import { RotateCcw, Shield, Share2, LogOut } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { getLevelInfo, LEVELS, getScoreLabel } from '../data/emissionData';
@@ -161,23 +161,25 @@ export default function Profile({ onNavigate: _ }: { onNavigate: (p: import('../
           {/* Monthly Bar Chart */}
           <div className="card">
             <h3 className="text-sm font-semibold text-slate-300 mb-3">Monthly Emissions vs Target</h3>
-            <ResponsiveContainer width="100%" height={130}>
-              <BarChart data={monthlyData} margin={{ top: 5, right: 5, bottom: 0, left: -25 }} barGap={2}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                <XAxis dataKey="month" tick={{ fill: '#64748b', fontSize: 8 }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: '#64748b', fontSize: 8 }} axisLine={false} tickLine={false} />
-                <Tooltip
-                  contentStyle={{ background: 'rgba(15,23,42,0.95)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 12, fontSize: 11 }}
-                  formatter={(v: number, name: string) => [`${v} kg`, name]}
-                />
-                <Bar dataKey="emissions" name="Emissions" radius={[3, 3, 0, 0]}>
-                  {monthlyData.map((entry, i) => (
-                    <Cell key={i} fill={entry.emissions <= entry.target ? '#10b981' : '#f97316'} />
-                  ))}
-                </Bar>
-                <Bar dataKey="target" name="Target" fill="#334155" radius={[3, 3, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            <div style={{ width: '100%', height: 130 }}>
+              <Chart
+                chartType="ColumnChart"
+                width="100%"
+                height="100%"
+                data={[
+                  ["Month", "Emissions", "Target"],
+                  ...monthlyData.map(d => [d.month, d.emissions, d.target])
+                ]}
+                options={{
+                  backgroundColor: 'transparent',
+                  legend: 'none',
+                  colors: ['#10b981', '#334155'],
+                  hAxis: { textStyle: { color: '#64748b', fontSize: 8 }, gridlines: { color: 'transparent' }, baselineColor: 'transparent' },
+                  vAxis: { textStyle: { color: '#64748b', fontSize: 8 }, gridlines: { color: '#1e293b' }, baselineColor: 'transparent' },
+                  chartArea: { width: '85%', height: '70%', left: 40 },
+                }}
+              />
+            </div>
             <div className="flex items-center gap-4 mt-1">
               <span className="flex items-center gap-1 text-xs text-slate-500"><span className="w-3 h-2 rounded bg-emerald-500 inline-block" /> Under target</span>
               <span className="flex items-center gap-1 text-xs text-slate-500"><span className="w-3 h-2 rounded bg-orange-500 inline-block" /> Over target</span>
@@ -189,14 +191,25 @@ export default function Profile({ onNavigate: _ }: { onNavigate: (p: import('../
           {radarData.length > 0 && (
             <div className="card">
               <h3 className="text-sm font-semibold text-slate-300 mb-3">Emission Profile</h3>
-              <ResponsiveContainer width="100%" height={160}>
-                <RadarChart data={radarData}>
-                  <PolarGrid stroke="#1e293b" />
-                  <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 9 }} />
-                  <PolarRadiusAxis tick={{ fill: '#475569', fontSize: 8 }} />
-                  <Radar name="You" dataKey="A" stroke="#10b981" fill="#10b981" fillOpacity={0.15} strokeWidth={2} />
-                </RadarChart>
-              </ResponsiveContainer>
+              <div style={{ width: '100%', height: 160 }}>
+                <Chart
+                  chartType="BarChart"
+                  width="100%"
+                  height="100%"
+                  data={[
+                    ["Category", "Percentage"],
+                    ...radarData.map(d => [d.subject, d.A])
+                  ]}
+                  options={{
+                    backgroundColor: 'transparent',
+                    colors: ['#10b981'],
+                    legend: 'none',
+                    hAxis: { textStyle: { color: '#64748b' }, gridlines: { color: '#1e293b' }, minValue: 0, baselineColor: 'transparent' },
+                    vAxis: { textStyle: { color: '#64748b', fontSize: 10 } },
+                    chartArea: { width: '70%', height: '80%', left: 60 },
+                  }}
+                />
+              </div>
             </div>
           )}
 

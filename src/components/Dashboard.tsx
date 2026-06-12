@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell,
-} from 'recharts';
+import { Chart } from 'react-google-charts';
 import { Flame, TrendingDown, TrendingUp, Calculator, Shield } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { getScoreLabel, getScoreGlowColor, getLevelInfo } from '../data/emissionData';
@@ -11,6 +8,7 @@ import GlobeWidget from './GlobeWidget';
 import CO2Counter from './CO2Counter';
 import DailyBudget from './DailyBudget';
 import InsightsCarousel from './InsightsCarousel';
+import AiAssistant from './AiAssistant';
 
 const PIE_COLORS = ['#10b981', '#14b8a6', '#f59e0b', '#6366f1', '#ec4899'];
 const CATEGORY_ICONS: Record<string, string> = {
@@ -178,30 +176,26 @@ export default function Dashboard({ onNavigate }: Props) {
       {/* Monthly Trend Chart */}
       <div className="card-glow">
         <h3 className="text-sm font-semibold text-slate-300 mb-3">Monthly Emissions Trend</h3>
-        <ResponsiveContainer width="100%" height={120}>
-          <AreaChart data={monthlyData} margin={{ top: 5, right: 5, bottom: 0, left: -20 }}>
-            <defs>
-              <linearGradient id="emGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%"  stopColor="#10b981" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#10b981" stopOpacity={0}   />
-              </linearGradient>
-              <linearGradient id="tgtGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%"  stopColor="#6366f1" stopOpacity={0.15} />
-                <stop offset="95%" stopColor="#6366f1" stopOpacity={0}   />
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-            <XAxis dataKey="month" tick={{ fill: '#64748b', fontSize: 9 }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fill: '#64748b', fontSize: 9 }} axisLine={false} tickLine={false} />
-            <Tooltip
-              contentStyle={{ background: 'rgba(15,23,42,0.95)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 12, fontSize: 11, backdropFilter: 'blur(8px)' }}
-              labelStyle={{ color: '#94a3b8' }}
-              formatter={(v: number) => [`${v} kg`, '']}
-            />
-            <Area type="monotone" dataKey="target"    stroke="#6366f1" strokeWidth={1.5} fill="url(#tgtGrad)" strokeDasharray="4 2" dot={false} name="Target" />
-            <Area type="monotone" dataKey="emissions" stroke="#10b981" strokeWidth={2}   fill="url(#emGrad)"  dot={false} name="Emissions" />
-          </AreaChart>
-        </ResponsiveContainer>
+        <div style={{ width: '100%', height: 120 }}>
+          <Chart
+            chartType="AreaChart"
+            width="100%"
+            height="100%"
+            data={[
+              ["Month", "Emissions", "Target"],
+              ...monthlyData.map(d => [d.month, d.emissions, d.target])
+            ]}
+            options={{
+              backgroundColor: 'transparent',
+              colors: ['#10b981', '#6366f1'],
+              legend: 'none',
+              hAxis: { textStyle: { color: '#64748b', fontSize: 9 }, gridlines: { color: 'transparent' }, baselineColor: 'transparent' },
+              vAxis: { textStyle: { color: '#64748b', fontSize: 9 }, gridlines: { color: '#1e293b' }, baselineColor: 'transparent' },
+              chartArea: { width: '85%', height: '70%', left: 40 },
+              areaOpacity: 0.2,
+            }}
+          />
+        </div>
         <div className="flex items-center gap-4 mt-2">
           <span className="flex items-center gap-1 text-xs text-slate-500"><span className="w-3 h-0.5 bg-emerald-500 inline-block" /> Emissions</span>
           <span className="flex items-center gap-1 text-xs text-slate-500"><span className="w-3 h-0.5 bg-indigo-500 inline-block" /> Target</span>
@@ -212,13 +206,26 @@ export default function Dashboard({ onNavigate }: Props) {
       <div className="card-glow">
         <h3 className="text-sm font-semibold text-slate-300 mb-3">Footprint Breakdown</h3>
         <div className="flex gap-4 items-center">
-          <ResponsiveContainer width={100} height={100}>
-            <PieChart>
-              <Pie data={catData} dataKey="value" cx="50%" cy="50%" innerRadius={28} outerRadius={46} paddingAngle={3} strokeWidth={0}>
-                {catData.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
+          <div style={{ width: 100, height: 100 }}>
+            <Chart
+              chartType="PieChart"
+              width="100%"
+              height="100%"
+              data={[
+                ["Category", "kg"],
+                ...catData.map(c => [c.name, c.value])
+              ]}
+              options={{
+                backgroundColor: 'transparent',
+                pieHole: 0.6,
+                legend: 'none',
+                pieSliceText: 'none',
+                colors: PIE_COLORS,
+                chartArea: { left: 0, top: 0, width: '100%', height: '100%' },
+                tooltip: { textStyle: { color: '#0f172a' } }
+              }}
+            />
+          </div>
           <div className="flex-1 space-y-1.5">
             {catData.map((cat, i) => {
               const pct = emissions ? Math.round((cat.value / emissions.total) * 100) : 0;
@@ -244,6 +251,9 @@ export default function Dashboard({ onNavigate }: Props) {
           </div>
         </div>
       </div>
+
+      {/* AI Assistant Feature */}
+      <AiAssistant />
 
       {/* AI Insights Carousel */}
       <InsightsCarousel />
