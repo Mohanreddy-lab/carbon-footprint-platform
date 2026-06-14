@@ -45,9 +45,9 @@ function AppContent() {
   if (!state.user.setupComplete) {
     return (
       <div className="min-h-screen p-4" style={{ background: '#060b18' }}>
-        <div className="max-w-2xl mx-auto">
+        <main id="main-content" className="max-w-2xl mx-auto">
           <Calculator onNavigate={() => setPage('dashboard')} />
-        </div>
+        </main>
         <ToastSystem />
         {state.showConfetti && (
           <Confetti active={true} onComplete={() => dispatch({ type: 'CLEAR_CONFETTI' })} />
@@ -58,7 +58,15 @@ function AppContent() {
 
   return (
     <div className="min-h-screen" style={{ background: '#060b18' }}>
-      <div className="max-w-2xl mx-auto pb-24 px-4">
+      {/* Skip to main content link for keyboard/screen reader users */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-emerald-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-medium"
+      >
+        Skip to main content
+      </a>
+
+      <main id="main-content" className="max-w-2xl mx-auto pb-24 px-4">
         {page === 'dashboard'  && <Dashboard  onNavigate={setPage} />}
         {page === 'calculator' && <Calculator onNavigate={setPage} />}
         {page === 'tracker'    && <ActivityTracker onNavigate={setPage} />}
@@ -66,7 +74,7 @@ function AppContent() {
         {page === 'community'  && <Community  onNavigate={setPage} />}
         {page === 'profile'    && <Profile    onNavigate={setPage} />}
         {page === 'vision'     && <VisionAnalyzer />}
-      </div>
+      </main>
 
       <Navbar currentPage={page} onNavigate={setPage} />
 
