@@ -13,17 +13,19 @@ describe('ActionCenter Component', () => {
     expect(screen.getByText(/Action Center/i)).toBeInTheDocument();
   });
 
-  it('renders action cards and allows committing to one', () => {
+  it('renders action cards and allows committing to one, and switching tabs', () => {
     render(
       <AppProvider>
         <ActionCenter onNavigate={vi.fn()} />
       </AppProvider>
     );
-    
     const commitButtons = screen.getAllByRole('button', { name: /Commit/i });
     expect(commitButtons.length).toBeGreaterThan(0);
-    
-    // Commit to the first action
     fireEvent.click(commitButtons[0]);
+    // Optionally check if button text changed to 'Committed' or 'Done'
+
+    const activeTab = screen.getByText(/Offsets/i);
+    fireEvent.click(activeTab);
+    expect(screen.getByText(/Carbon Offsets/i)).toBeInTheDocument();
   });
 });
