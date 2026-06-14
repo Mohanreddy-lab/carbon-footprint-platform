@@ -24,8 +24,8 @@ describe('ActionCenter Component', () => {
     fireEvent.click(commitButtons[0]);
     // Optionally check if button text changed to 'Committed' or 'Done'
 
-    const activeTab = screen.getByText(/Offsets/i);
+    const activeTab = screen.getAllByText(/Offsets/i)[0];
     fireEvent.click(activeTab);
-    expect(screen.getByText(/Carbon Offsets/i)).toBeInTheDocument();
+    expect(screen.getByText(/Total CO₂ Offset/i)).toBeInTheDocument();
   });
 });
