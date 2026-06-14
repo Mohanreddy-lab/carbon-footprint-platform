@@ -302,8 +302,16 @@ interface AppContextValue {
   dispatch: React.Dispatch<AppAction>;
 }
 
+/**
+ * Central state management context for the EcoTrack platform.
+ * Provides user profile data, emissions, activities, and application state.
+ */
 const AppContext = createContext<AppContextValue | null>(null);
 
+/**
+ * AppProvider component that wraps the application and provides global state.
+ * @param children React components to be wrapped.
+ */
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, undefined, loadState);
   const prevLevelRef = useRef(state.user.level);
@@ -380,6 +388,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   return <AppContext.Provider value={{ state, dispatch }}>{children}</AppContext.Provider>;
 }
 
+/**
+ * Hook to access the application state and dispatch function.
+ * Must be used within an AppProvider.
+ * @throws Error if used outside of AppProvider
+ */
 export function useApp() {
   const ctx = useContext(AppContext);
   if (!ctx) throw new Error('useApp must be used within AppProvider');

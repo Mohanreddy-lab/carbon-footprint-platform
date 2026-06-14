@@ -67,6 +67,13 @@ function CarbonScoreGauge({ score }: { score: number }) {
 
 interface Props { onNavigate: (p: Page) => void }
 
+/**
+ * Dashboard component displays the user's primary statistics, recent activities,
+ * and a 3D visualization of their carbon footprint impact.
+ * 
+ * @param {Object} props - Component props
+ * @param {Function} props.onNavigate - Callback function to navigate between pages
+ */
 export default function Dashboard({ onNavigate }: Props) {
   const { state } = useApp();
   const { user, emissions, monthlyData, activities } = state;

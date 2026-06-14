@@ -15,6 +15,11 @@ import VisionAnalyzer from './components/VisionAnalyzer';
 import { LEVELS } from './data/emissionData';
 import type { Page } from './types';
 
+/**
+ * AppContent component handles routing and rendering the correct page based on user state.
+ * If the user is not authenticated, it renders the AuthScreen.
+ * Otherwise, it renders the main application layout and active page component.
+ */
 function AppContent() {
   const [page, setPage] = useState<Page>('dashboard');
   const { state, dispatch } = useApp();
@@ -99,6 +104,10 @@ function AppContent() {
   );
 }
 
+/**
+ * Main App component.
+ * Wraps the entire application in the AppProvider context and renders AppContent.
+ */
 export default function App() {
   return (
     <AppProvider>
