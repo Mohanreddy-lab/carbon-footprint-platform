@@ -11,6 +11,7 @@ import ActivityTracker from './components/ActivityTracker';
 import ActionCenter from './components/ActionCenter';
 import Community from './components/Community';
 import Profile from './components/Profile';
+import VisionAnalyzer from './components/VisionAnalyzer';
 import { LEVELS } from './data/emissionData';
 import type { Page } from './types';
 
@@ -64,6 +65,7 @@ function AppContent() {
         {page === 'actions'    && <ActionCenter onNavigate={setPage} />}
         {page === 'community'  && <Community  onNavigate={setPage} />}
         {page === 'profile'    && <Profile    onNavigate={setPage} />}
+        {page === 'vision'     && <VisionAnalyzer />}
       </div>
 
       <Navbar currentPage={page} onNavigate={setPage} />

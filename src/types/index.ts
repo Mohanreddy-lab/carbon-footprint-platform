@@ -6,7 +6,7 @@ export type ActionDifficulty = 'easy' | 'medium' | 'hard';
 export type ActivityCategory = 'transport' | 'food' | 'energy' | 'shopping' | 'flights' | 'other';
 export type AchievementRarity = 'common' | 'rare' | 'epic' | 'legendary';
 export type NewsCategory = 'policy' | 'tech' | 'science' | 'tips';
-export type Page = 'dashboard' | 'calculator' | 'tracker' | 'actions' | 'community' | 'profile';
+export type Page = 'dashboard' | 'calculator' | 'tracker' | 'actions' | 'community' | 'profile' | 'vision';
 export type ToastType = 'achievement' | 'levelup' | 'streak' | 'info' | 'milestone';
 
 export interface ToastNotification {

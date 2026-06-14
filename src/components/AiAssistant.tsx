@@ -27,7 +27,8 @@ export default function AiAssistant() {
 
     try {
       const genAI = new GoogleGenerativeAI(API_KEY);
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      // Use a model supported by the Hackathon API key
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
       const prompt = `You are EcoTrack's AI Assistant helping a user in India.
 The user has the following carbon footprint baseline:

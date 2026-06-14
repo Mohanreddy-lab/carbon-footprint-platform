@@ -1,4 +1,4 @@
-import { LayoutDashboard, Calculator, Activity, Zap, Globe, User } from 'lucide-react';
+import { LayoutDashboard, Calculator, Activity, Zap, Globe, User, Camera } from 'lucide-react';
 import type { Page } from '../types';
 
 interface NavbarProps {
@@ -12,6 +12,7 @@ const tabs: { page: Page; icon: React.ElementType; label: string }[] = [
   { page: 'tracker',    icon: Activity,        label: 'Track'     },
   { page: 'actions',    icon: Zap,             label: 'Actions'   },
   { page: 'community',  icon: Globe,           label: 'Community' },
+  { page: 'vision',     icon: Camera,          label: 'Vision'    },
   { page: 'profile',    icon: User,            label: 'Profile'   },
 ];
 
