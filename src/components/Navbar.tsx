@@ -19,6 +19,7 @@ const tabs: { page: Page; icon: React.ElementType; label: string }[] = [
 export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
   return (
     <nav
+      aria-label="Main navigation"
       className="fixed bottom-0 left-0 right-0 z-50"
       style={{
         background: 'rgba(6,11,24,0.95)',
@@ -36,6 +37,8 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
             <button
               key={page}
               onClick={() => onNavigate(page)}
+              aria-label={`Navigate to ${label}`}
+              aria-current={active ? 'page' : undefined}
               className="flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl transition-all duration-200 min-w-0 flex-1 relative group"
               style={{
                 color: active ? '#34d399' : '#475569',
@@ -55,12 +58,12 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
               <div className="relative">
                 <Icon
                   size={20}
+                  aria-hidden="true"
                   style={{
                     filter: active ? 'drop-shadow(0 0 6px rgba(52,211,153,0.6))' : 'none',
                     transition: 'filter 0.2s ease',
                   }}
                 />
-                {/* Notification dot placeholder */}
               </div>
 
               <span
@@ -74,6 +77,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
               {active && (
                 <span
                   className="w-1 h-1 rounded-full relative"
+                  aria-hidden="true"
                   style={{
                     background: '#10b981',
                     boxShadow: '0 0 6px rgba(16,185,129,0.8)',

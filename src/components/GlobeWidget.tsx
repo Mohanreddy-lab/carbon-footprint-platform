@@ -1,10 +1,10 @@
 import { useRef, useEffect, useState } from 'react';
-import Globe from 'react-globe.gl';
+import Globe, { type GlobeMethods } from 'react-globe.gl';
 import { useApp } from '../context/AppContext';
 
 export default function GlobeWidget() {
   const { state } = useApp();
-  const globeEl = useRef<any>();
+  const globeEl = useRef<GlobeMethods>();
   const [dimensions, setDimensions] = useState({ width: 120, height: 120 });
   const [mounted, setMounted] = useState(false);
 

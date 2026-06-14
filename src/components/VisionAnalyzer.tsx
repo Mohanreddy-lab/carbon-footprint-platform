@@ -159,7 +159,7 @@ Return ONLY a raw JSON object with no markdown formatting and no backticks. It M
           ) : (
             <div className="space-y-4">
               <div className="relative rounded-xl overflow-hidden aspect-video bg-slate-900 border border-slate-700">
-                <img src={image} alt="Uploaded" className="w-full h-full object-cover" />
+                <img src={image} alt="Uploaded item to analyze" className="w-full h-full object-cover" />
                 <button 
                   onClick={() => { setImage(null); setResult(null); }}
                   className="absolute top-2 right-2 bg-slate-900/80 text-white p-2 rounded-lg backdrop-blur-sm hover:bg-red-500 transition-colors"
